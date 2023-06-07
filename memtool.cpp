@@ -116,13 +116,8 @@ void PatchEx(BYTE *dst, BYTE *src, unsigned int size, HANDLE process_handle)
 /// @param process_handle
 void NopEx(BYTE *dst, unsigned int size, HANDLE process_handle)
 {
-    DWORD old_protect;
-    // Change the memory protection
-    VirtualProtectEx(process_handle, dst, size, PAGE_EXECUTE_READWRITE, &old_protect);
-
-    // Write the memory
-    memset(dst, 0x90, size);
-
-    // Restore the memory protection
-    VirtualProtectEx(process_handle, dst, size, old_protect, &old_protect);
+    BYTE *nop_array = new BYTE[size];
+    memset(nop_array, 0x90, size);
+    PatchEx(dst, nop_array, size, process_handle);
+    delete[] nop_array;
 }
