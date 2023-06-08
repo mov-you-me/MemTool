@@ -10,9 +10,12 @@ DWORD GetProcessId(const wchar_t *process_name);
 uintptr_t GetModuleBaseAddress(DWORD process_id, const wchar_t *module_name);
 
 uintptr_t GetDynamicAddress(HANDLE process_handle, uintptr_t static_address, std::vector<unsigned int> offsets);
+uintptr_t GetDynamicAddress(uintptr_t static_address, std::vector<unsigned int> offsets);
 
 void PatchEx(BYTE *dst, BYTE *src, unsigned int size, HANDLE process_handle);
-
 void NopEx(BYTE *dst, unsigned int size, HANDLE process_handle);
+
+void Patch(BYTE *dst, BYTE *src, unsigned int size);
+void Nop(BYTE *dst, unsigned int size);
 
 #endif
